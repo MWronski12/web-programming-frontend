@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 const parseJwt = (token) => {
   try {
-    return JSON.parse(atob(token.split('.')[1]));
+    return JSON.parse(Buffer.from(token.split(".")[1], "base64"));
   } catch (e) {
     return null;
   }
