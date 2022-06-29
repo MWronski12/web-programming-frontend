@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import blogService from "../services/blog.service";
+import BlogService from "../../services/blog.service";
 
 export default class PostListItem extends Component {
   constructor() {
@@ -11,21 +11,9 @@ export default class PostListItem extends Component {
   }
 
   componentDidMount() {
-    blogService.getPost(this.props.id).then((response) => {
+    BlogService.getPost(this.props.postId).then((response) => {
       this.setState({ post: response.data });
     });
-  }
-
-  formatDate(dateString) {
-    const date = new Date(dateString);
-
-    return (
-      date.toLocaleString("default", { month: "long" }) +
-      " " +
-      date.getDate() +
-      ", " +
-      date.getFullYear()
-    );
   }
 
   formatPostContent(content) {
@@ -45,9 +33,13 @@ export default class PostListItem extends Component {
               <h1>{this.state.post.title}</h1>
             </Link>
             <span className="text-muted">
-              {this.formatDate(this.state.post.createdAt)}
+              {BlogService.formatDate(this.state.post.createdAt)}
             </span>
-            <span>{this.formatPostContent(this.state.post.content)}</span>
+            <span>
+              {this.props.shortenContent
+                ? this.formatPostContent(this.state.post.content)
+                : this.state.post.content}
+            </span>
           </div>
         )}
       </div>

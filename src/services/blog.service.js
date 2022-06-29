@@ -15,6 +15,34 @@ class BlogService {
   createPost(post) {
     return axios.post(API_URL + "posts", post, { headers: authHeader() });
   }
+
+  createComment(comment) {
+    return axios.post(API_URL + "comments", comment, { headers: authHeader() });
+  }
+
+  getComment(id) {
+    return axios.get(API_URL + `comments/${id}`);
+  }
+
+  getPostComments(id) {
+    return axios.get(API_URL + `posts/${id}/comments`);
+  }
+
+  getUserName(id) {
+    return axios.get(API_URL + `users/${id}`);
+  }
+
+  formatDate(dateString) {
+    const date = new Date(dateString);
+
+    return (
+      date.toLocaleString("default", { month: "long" }) +
+      " " +
+      date.getDate() +
+      ", " +
+      date.getFullYear()
+    );
+  }
 }
 
 export default new BlogService();

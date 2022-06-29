@@ -5,14 +5,15 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/login.component";
-import Register from "./components/register.component";
+import Login from "./components/user/login.component";
+import Register from "./components/user/register.component";
 import Home from "./components/home.component";
-import Profile from "./components/profile.component";
-import CreatePost from "./components/create-post.component";
+import Profile from "./components/user/profile.component";
+import CreatePost from "./components/post/create-post.component";
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
+import PostDetails from "./components/post/post-details.component";
 
 class App extends Component {
   constructor(props) {
@@ -20,9 +21,8 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showModeratorBoard: false,
-      showAdminBoard: false,
       currentUser: undefined,
+      showAdminContent: false,
     };
   }
 
@@ -32,7 +32,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+        showAdminContent: user.roles.includes("ROLE_ADMIN"),
       });
     }
 
@@ -48,14 +48,13 @@ class App extends Component {
   logOut() {
     AuthService.logout();
     this.setState({
-      showModeratorBoard: false,
-      showAdminBoard: false,
       currentUser: undefined,
+      showAdminContent: false,
     });
   }
 
   render() {
-    const { currentUser, showAdminBoard } = this.state;
+    const { currentUser, showAdminContent } = this.state;
 
     return (
       <div>
@@ -68,7 +67,7 @@ class App extends Component {
                 </Link>
               </li>
 
-              {showAdminBoard && (
+              {showAdminContent && (
                 <li className="nav-item">
                   <Link to={"/create-post"} className="nav-link">
                     Create post
@@ -115,6 +114,10 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/create-post" component={CreatePost} />
+            <Route
+              path="/posts/:id"
+              render={(props) => <PostDetails postId={props.match.params.id} />}
+            />
           </Switch>
         </div>
 
