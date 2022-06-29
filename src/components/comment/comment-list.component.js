@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Comment from "./comment.component";
 import BlogService from "../../services/blog.service";
-import AddComment from "./add-comment.component";
 
 export default class CommentList extends Component {
   constructor() {
@@ -21,7 +20,7 @@ export default class CommentList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.newCommentEvent != this.props.newCommentEvent) {
+    if (prevProps.newCommentEvent !== this.props.newCommentEvent) {
       BlogService.getPostComments(this.props.postId).then((response) => {
         this.setState({ ...this.state, comments: response.data });
       });

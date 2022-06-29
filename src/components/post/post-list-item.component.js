@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import BlogService from "../../services/blog.service";
+import blogService from "../../services/blog.service";
 
 export default class PostListItem extends Component {
   constructor() {
@@ -11,7 +11,7 @@ export default class PostListItem extends Component {
   }
 
   componentDidMount() {
-    BlogService.getPost(this.props.postId).then((response) => {
+    blogService.getPost(this.props.postId).then((response) => {
       this.setState({ post: response.data });
     });
   }
@@ -33,7 +33,7 @@ export default class PostListItem extends Component {
               <h1>{this.state.post.title}</h1>
             </Link>
             <span className="text-muted">
-              {BlogService.formatDate(this.state.post.createdAt)}
+              {blogService.formatDate(this.state.post.createdAt)}
             </span>
             <span>
               {this.props.shortenContent
