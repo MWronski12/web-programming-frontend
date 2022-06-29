@@ -28,7 +28,6 @@ export default class AddComment extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({ ...this.state, comment: "" });
 
     blogService
       .createComment({
@@ -37,6 +36,7 @@ export default class AddComment extends Component {
         content: this.state.comment,
       })
       .then((response) => {
+        this.setState({ ...this.state, comment: "" });
         this.props.newCommentCallback();
       });
   }

@@ -1,17 +1,20 @@
 import React, { Component } from "react";
-import { useParams } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import authService from "../../services/auth.service";
+import blogService from "../../services/blog.service";
 import CommentSection from "../comment/comment-section.component";
 import PostListItem from "./post-list-item.component";
 
-export default class PostDetails extends Component {
+class PostDetails extends Component {
   constructor() {
     super();
 
     this.state = {
       showAdminContent: false,
     };
+
+    this.onDelete = this.onDelete.bind(this);
   }
 
   componentDidMount() {
@@ -24,12 +27,25 @@ export default class PostDetails extends Component {
     }
   }
 
+  onDelete() {
+    blogService.deletePost(this.props.postId).then((response) => {
+      this.props.history.push("/");
+    });
+  }
+
   render() {
     return (
       <div className="mt-5">
+        {this.state.showAdminContent && (
+          <button className="btn btn-danger" onClick={this.onDelete}>
+            Delete
+          </button>
+        )}
         <PostListItem postId={this.props.postId} />
         <CommentSection postId={this.props.postId} />
       </div>
     );
   }
 }
+
+export default withRouter(PostDetails);

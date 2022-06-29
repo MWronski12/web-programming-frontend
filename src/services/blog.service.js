@@ -16,6 +16,10 @@ class BlogService {
     return axios.post(API_URL + "posts", post, { headers: authHeader() });
   }
 
+  deletePost(postId) {
+    return axios.delete(API_URL + `posts/${postId}`, { headers: authHeader() });
+  }
+
   createComment(comment) {
     return axios.post(API_URL + "comments", comment, { headers: authHeader() });
   }

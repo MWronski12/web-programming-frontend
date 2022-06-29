@@ -26,7 +26,10 @@ export default class CommentSection extends Component {
           postId={this.props.postId}
           newCommentCallback={this.newCommentCallback}
         />
-        <CommentList postId={this.props.postId} />
+        <CommentList
+          newCommentEvent={this.state.newCommentEvent}
+          postId={this.props.postId}
+        />
       </div>
     );
   }
